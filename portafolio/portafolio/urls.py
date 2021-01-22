@@ -15,11 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core import views
+from core import views as core_views
+from proyectos import views as project_views
+
+
+#Para buscar dentro de la configuración de django para poder acceder a las variables MEDIA_URL y MEDIA_ROOT
+from django.conf import settings
+
 urlpatterns = [
-    path('', views.home, name="index"),
-    path('about-me/', views.aboutMe, name="about"),
-    path("portafolio/", views.portafolio, name = "portafolio"),
-    path("contact/", views.contactMe, name="contact"),
+    path('', core_views.home, name="index"),
+    path('about-me/', core_views.aboutMe, name="about"),
+    path("portafolio/", project_views.portafolio, name = "portafolio"),
+    path("contact/", core_views.contactMe, name="contact"),
     path('admin/', admin.site.urls),
 ]
+
+#Configuración extendido solo en modo DEBUG
+if settings.DEBUG == True:
+    #Import para servir ficheros estaticos
+    from django.conf.urls.static import static
+    #Servir imagen de turno(URL_FICHEROS_MEDIA, RAIZ_FICHEROS)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
