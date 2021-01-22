@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Portafolio {% endblock title %}
+
+{% block background %} {% load static %}{% static "core/img/portfolio-bg.jpg" %}{% endblock background %}
+
+{% block titlesHeader %}
+<h1>Portafolio</h1>
+<span>Curriculo</span>
+{% endblock titlesHeader %}
+
+{% block content %}
+
+<!--QuerySet = Es la representación de una consulta a la BD,
+pero devuelta como una lista de instancias del tipo que ha encontrado-->
+
+{% for project in projects  %}
+<!-- Contenido Principal -->
+<div class="container">
+    <!-- Proyecto -->
+    <div class="row project">
+        <div class="col-lg-3 col-md-4 offset-lg-1">
+            <img class="img-fluid" src="{{project.image.url}}" alt="">
+        </div>
+        <div class="col-lg-7 col-md-8">
+            <h2 class="section-heading title">{{project.title}}</h2>
+            <p>{{project.description}}</p>
+
+            {% if project.link %}
+                <p><a target="_blank" href="{{project.link}}">Más información</a></p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>    
+
+{% endfor %}
+{% endblock content %}%
